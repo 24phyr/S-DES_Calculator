@@ -3,8 +3,27 @@ function permuteP10(keyBits) {
     return [keyBits[2], keyBits[4], keyBits[1], keyBits[6], keyBits[3], keyBits[9], keyBits[0], keyBits[8], keyBits[7], keyBits[5]];
 }
 
+// P8(637485109)
+function permuteP8(tenBits) {
+    return [tenBits[5],tenBits[2],tenBits[6],tenBits[3],tenBits[7],tenBits[4],tenBits[9],tenBits[8]];
+}
+
+// IP(26314857)
+function initialpermute(bits) {
+    return [bits[1], bits[5], bits[2], bits[0], bits[3], bits[7], bits[4], bits[6]];
+}
+
+//Expand(41232341)
+function expand(bits) {
+    return [bits[3], bits[0], bits[1], bits[2], bits[1], bits[2], bits[3], bits[0]]
+}
+
 function splitTenBits(tenBits) {
     return [tenBits.slice(0,5), tenBits.slice(5)];
+}
+
+function splitEightBits(bits) {
+    return [bits.slice(0,4), bits.slice(4)];
 }
 
 function circularLS1(bits) {
@@ -17,16 +36,6 @@ function combineHalves(left,right) {
 
 function circularLS2(bits) {
     return [bits[2],bits[3],bits[4],bits[0],bits[1]];
-}
-
-// P8(637485109)
-function permuteP8(tenBits) {
-    return [tenBits[5],tenBits[2],tenBits[6],tenBits[3],tenBits[7],tenBits[4],tenBits[9],tenBits[8]];
-}
-
-// IP(26314857)
-function initialpermute(bits) {
-    return [bits[1], bits[5], bits[2], bits[0], bits[3], bits[7], bits[4], bits[6]];
 }
 
 function SDES() {
@@ -80,8 +89,13 @@ function SDES() {
     let IP = initialpermute(plaintextBits);
     console.log("After IP: ", IP);
 
-    //TODO: Split the IP
-    //TODO: Expand/Permute
+    let [leftIP, rightIP] = splitEightBits(IP);
+    console.log(leftIP);
+    console.log(rightIP);
+    
+    let expandedRightHalf = expand(rightIP);
+    console.log(expandedRightHalf);
+
     //TODO: Implement XOR Function
     //TODO: Implement S-Box
     //TODO: Implement Swap Function
@@ -100,6 +114,8 @@ function SDES() {
     "<p>LS-2 on Right: " + rightLS2Shifted.join("") + "</p>" +
     "<p>Combining: " + shiftedLS2.join("") + "</p>" +
     "<p>K2: " + K2.join("") + "</p>" +
-    "<p>After IP: " + IP.join("") + "</p>";
-
+    "<p>After IP: " + IP.join("") + "</p>" +
+    "<p>left: " + leftIP.join("") + "</p>" +
+    "<p>right: " + rightIP.join("") + "</p>" +
+    "<p>Expanded Right Half: " + expandedRightHalf.join("") + "</p>"
 }
