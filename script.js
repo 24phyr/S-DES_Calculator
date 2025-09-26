@@ -38,6 +38,19 @@ function circularLS2(bits) {
     return [bits[2],bits[3],bits[4],bits[0],bits[1]];
 }
 
+function XOR(first,second) {
+    let result = [];
+    for (let i = 0; i < first.length; i++) {
+        if (first[i] === second[i]) {
+            result.push(0);
+        }
+        else {
+            result.push(1);
+        }
+    }
+    return result;
+}
+
 function SDES() {
     let plaintext = document.getElementById("plaintext").value;
     let key = document.getElementById("key").value;
@@ -96,7 +109,8 @@ function SDES() {
     let expandedRightHalf = expand(rightIP);
     console.log(expandedRightHalf);
 
-    //TODO: Implement XOR Function
+    let XORedValue = XOR(expandedRightHalf,K1);
+    console.log("XOR Value: ", XORedValue);
     //TODO: Implement S-Box
     //TODO: Implement Swap Function
 
@@ -117,5 +131,6 @@ function SDES() {
     "<p>After IP: " + IP.join("") + "</p>" +
     "<p>left: " + leftIP.join("") + "</p>" +
     "<p>right: " + rightIP.join("") + "</p>" +
-    "<p>Expanded Right Half: " + expandedRightHalf.join("") + "</p>"
+    "<p>Expanded Right Half: " + expandedRightHalf.join("") + "</p>" +
+    "<p>XORed Value: " + XORedValue.join("") + "</p>";
 }
