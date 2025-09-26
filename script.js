@@ -24,6 +24,11 @@ function permuteP8(tenBits) {
     return [tenBits[5],tenBits[2],tenBits[6],tenBits[3],tenBits[7],tenBits[4],tenBits[9],tenBits[8]];
 }
 
+// IP(26314857)
+function initialpermute(bits) {
+    return [bits[1], bits[5], bits[2], bits[0], bits[3], bits[7], bits[4], bits[6]];
+}
+
 function SDES() {
     let plaintext = document.getElementById("plaintext").value;
     let key = document.getElementById("key").value;
@@ -70,6 +75,16 @@ function SDES() {
     let shiftedLS2 = combineHalves(leftLS2Shifted, rightLS2Shifted);
     let K2 = permuteP8(shiftedLS2);
     console.log("K2: ", K2);
+    // Key Generation Done
+
+    let IP = initialpermute(plaintextBits);
+    console.log("After IP: ", IP);
+
+    //TODO: Split the IP
+    //TODO: Expand/Permute
+    //TODO: Implement XOR Function
+    //TODO: Implement S-Box
+    //TODO: Implement Swap Function
 
     document.getElementById("output").innerHTML = 
     "<p>Plaintext: " + plaintextBits.join("") + "</p>" +
@@ -84,6 +99,7 @@ function SDES() {
     "<p>LS-2 on Left: " + leftLS2Shifted.join("") + "</p>" +
     "<p>LS-2 on Right: " + rightLS2Shifted.join("") + "</p>" +
     "<p>Combining: " + shiftedLS2.join("") + "</p>" +
-    "<p>K2: " + K2.join("") + "</p>";
+    "<p>K2: " + K2.join("") + "</p>" +
+    "<p>After IP: " + IP.join("") + "</p>";
 
 }
