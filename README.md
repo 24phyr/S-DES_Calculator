@@ -1,5 +1,3 @@
-# S-DES Calculator
+# S-DES Calculator [WIP]
 
-## WIP
-
-This is in Early Stage. Please don't check the source code.
+This is in Early Stage. Please don't check the source code. Only Key Generation Works as of now.
