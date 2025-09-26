@@ -28,6 +28,21 @@ function SDES() {
     let plaintext = document.getElementById("plaintext").value;
     let key = document.getElementById("key").value;
 
+    if (!/^[01]+$/.test(plaintext) && !/^[01]+$/.test(key)) {
+        alert("Plaintext and Key must consist of binary digits.");
+        return;
+    }
+
+    if (!/^[01]+$/.test(plaintext)) {
+        alert("Plaintext must consist of binary digits.");
+        return;
+    }
+    
+    if (!/^[01]+$/.test(key)) {
+        alert("Key must consist of binary digits.");
+        return;
+    }
+
     let plaintextBits = plaintext.split("").map(Number);
     let keyBits = key.split("").map(Number);
 
