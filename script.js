@@ -51,6 +51,62 @@ function XOR(first,second) {
     return result;
 }
 
+const S0 = [[1,0,3,2],[3,2,1,0],[0,2,1,3],[3,1,3,2]];
+const S1 = [[0,1,2,3],[2,0,1,3],[3,0,1,0],[2,1,0,3]];
+
+function decimalToBits(num) {
+    if (num === 0) {
+        return [0, 0];
+    }
+    if (num === 1) {
+        return [0, 1];
+    }
+    if (num === 2) {
+        return [1, 0];
+    }
+    if (num === 3) {
+        return [1, 1];
+    }
+}
+
+function sBoxLookup(bits, box) {
+    let row = 0;
+    if (bits[0] === 0 && bits[3] === 0) {
+        row = 0;
+    }
+    if (bits[0] === 0 && bits[3] === 1) {
+        row = 1;
+    }
+    if (bits[0] === 1 && bits[3] === 0) {
+        row = 2;
+    }
+    if (bits[0] === 1 && bits[3] === 1) {
+        row = 3;
+    }
+    
+    let col = 0;
+    if (bits[1] === 0 && bits[2] === 0) {
+        col = 0;
+    }
+    if (bits[1] === 0 && bits[2] === 1) {
+        col = 1;
+    }
+    if (bits[1] === 1 && bits[2] === 0) {
+        col = 2;
+    }
+    if (bits[1] === 1 && bits[2] === 1) {
+        col = 3;
+    }
+
+    let value = box[row][col];
+
+    return decimalToBits(value);
+}
+
+
+//const S0 = [[[0,1],[0,0],[1,1],[1,0]],[[1,1],[1,0],[0,1],[0,0]],[[0,0],[1,0],[0,1],[1,1]],[[1,1],[0,1],[1,1],[1,0]]];
+//const S1 = [[[0,0],[0,1],[1,0],[1,1]],[[1,0],[0,0],[0,1],[1,1]],[[1,1],[0,0],[0,1],[0,0]],[[1,0],[0,1],[0,0],[1,1]]];
+
 function SDES() {
     let plaintext = document.getElementById("plaintext").value;
     let key = document.getElementById("key").value;
@@ -111,7 +167,17 @@ function SDES() {
 
     let XORedValue = XOR(expandedRightHalf,K1);
     console.log("XOR Value: ", XORedValue);
-    //TODO: Implement S-Box
+
+    let [leftXOR,rightXOR] = splitEightBits(XORedValue);
+    console.log("left", leftXOR);
+    console.log("right", rightXOR);
+
+    let left2 = sBoxLookup(leftXOR, S0);
+    let right2 = sBoxLookup(rightXOR, S1);
+
+    let sBoxOutput = left2.concat(right2);
+    console.log("S-Box Output: ", sBoxOutput);
+    
     //TODO: Implement Swap Function
 
     document.getElementById("output").innerHTML = 
@@ -132,5 +198,7 @@ function SDES() {
     "<p>left: " + leftIP.join("") + "</p>" +
     "<p>right: " + rightIP.join("") + "</p>" +
     "<p>Expanded Right Half: " + expandedRightHalf.join("") + "</p>" +
-    "<p>XORed Value: " + XORedValue.join("") + "</p>";
+    "<p>XORed Value: " + XORedValue.join("") + "</p>" +
+    "<p>left: " + leftXOR.join("") + "</p>" +
+    "<p>right: " + rightXOR.join("") + "</p>";
 }
