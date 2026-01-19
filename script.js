@@ -8,9 +8,19 @@ function permuteP8(tenBits) {
     return [tenBits[5],tenBits[2],tenBits[6],tenBits[3],tenBits[7],tenBits[4],tenBits[9],tenBits[8]];
 }
 
+// P4(2431)
+function permuteP4(bits) {
+    return [bits[1], bits[3], bits[2], bits[0]];
+}
+
 // IP(26314857)
 function initialpermute(bits) {
     return [bits[1], bits[5], bits[2], bits[0], bits[3], bits[7], bits[4], bits[6]];
+}
+
+// IP⁻¹(41357286)
+function inverseinitialpermute(bits) {
+    return [bits[3], bits[0], bits[2], bits[4], bits[6], bits[1], bits[7], bits[5]];
 }
 
 //Expand(41232341)
@@ -177,6 +187,9 @@ function SDES() {
 
     let sBoxOutput = left2.concat(right2);
     console.log("S-Box Output: ", sBoxOutput);
+
+    let p4Output = permuteP4(sBoxOutput);
+    console.log("P4 Output: ", p4Output);
     
     //TODO: Implement Swap Function
 
